@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float moveHori = Input.GetAxis("Horizontal");
-        float moveVert = Input.GetAxis("Vertical");
+        float moveHori = Input.GetAxisRaw("Horizontal");
+        float moveVert = Input.GetAxisRaw("Vertical");
         
         Vector3 movement = new Vector3(moveHori, 0, moveVert);
 
