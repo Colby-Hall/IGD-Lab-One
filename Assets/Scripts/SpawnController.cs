@@ -29,8 +29,6 @@ public class SpawnController : MonoBehaviour
             {
                 SpawnCubes(goodPosition, badPosition);
             }
-
-
         }
     }
 
@@ -42,22 +40,21 @@ public class SpawnController : MonoBehaviour
 
     private bool CheckCollisions(Vector3 goodPot, Vector3 badPot)
     {
-        radius = 1.5f;
+        radius = 1.25f;
         Collider[] goodCollisions = Physics.OverlapSphere(goodPot, radius);
         Collider[] badCollisions = Physics.OverlapSphere(badPot, radius);
 
         foreach (Collider cubeColl in goodCollisions)
         {
-            if (cubeColl.tag == "Good Pickup" || cubeColl.tag == "Bad Pickup")
+            if (cubeColl.tag == "Good Pickup" || cubeColl.tag == "Bad Pickup" || cubeColl.tag == "Player")
             {
                 return true;
             }
-
         }
 
         foreach (Collider cubeColl in badCollisions)
         {
-            if (cubeColl.tag == "Good Pickup" || cubeColl.tag == "Bad Pickup")
+            if (cubeColl.tag == "Good Pickup" || cubeColl.tag == "Bad Pickup" || cubeColl.tag == "Player")
             {
                 return true;
             }
