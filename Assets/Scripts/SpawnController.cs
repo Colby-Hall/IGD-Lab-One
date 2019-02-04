@@ -6,21 +6,65 @@ public class SpawnController : MonoBehaviour
 {
     public GameObject goodPrefab;
     public GameObject badPrefab;
-    public BoxCollider[] cubeCollision;
+
 
     private Vector3 goodPosition;
     private Vector3 badPosition;
+    private float radius;
+    private int numCubes;
 
-    void Start()
+    private void Start()
     {
-        
-        for (int i = 0; i < 10; i++)
+        numCubes = 0;
+        for (; numCubes < 10; numCubes++)
         {
             goodPosition = new Vector3(Random.Range(-13.5f, 13.5f), 1, Random.Range(-13.5f, 13.5f));
             badPosition = new Vector3(Random.Range(-13.5f, 13.5f), 1, Random.Range(-13.5f, 13.5f));
 
-            Instantiate(goodPrefab, goodPosition, Quaternion.identity);
-            Instantiate(badPrefab, badPosition, Quaternion.identity);
+            if (CheckCollisions(goodPosition, badPosition))
+            {
+                numCubes--;
+            }
+            else
+            {
+                SpawnCubes(goodPosition, badPosition);
+            }
+
+
         }
     }
+
+    private void SpawnCubes(Vector3 goodPos, Vector3 badPos)
+    {
+        Instantiate(goodPrefab, goodPos, Quaternion.identity);
+        Instantiate(badPrefab, badPos, Quaternion.identity);
+    }
+
+    private bool CheckCollisions(Vector3 goodPot, Vector3 badPot)
+    {
+        radius = 1.5f;
+        Collider[] goodCollisions = Physics.OverlapSphere(goodPot, radius);
+        Collider[] badCollisions = Physics.OverlapSphere(badPot, radius);
+
+        foreach (Collider cubeColl in goodCollisions)
+        {
+            if (cubeColl.tag == "Good Pickup" || cubeColl.tag == "Bad Pickup")
+            {
+                return true;
+            }
+
+        }
+
+        foreach (Collider cubeColl in badCollisions)
+        {
+            if (cubeColl.tag == "Good Pickup" || cubeColl.tag == "Bad Pickup")
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
+
+
