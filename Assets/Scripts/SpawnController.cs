@@ -16,7 +16,7 @@ public class SpawnController : MonoBehaviour
     private void Start()
     {
         numCubes = 0;
-        for (; numCubes < 10; numCubes++)
+        for (; numCubes < 50; numCubes++)
         {
             goodPosition = new Vector3(Random.Range(-13.5f, 13.5f), 1, Random.Range(-13.5f, 13.5f));
             badPosition = new Vector3(Random.Range(-13.5f, 13.5f), 1, Random.Range(-13.5f, 13.5f));

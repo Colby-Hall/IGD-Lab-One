@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody ballBody;
     private int goodPickups;
     private int badPickups;
+    private bool jumping;
 
     public float speedMult;
     public Text scoreText;
@@ -52,6 +53,15 @@ public class PlayerController : MonoBehaviour
         float moveVert = Input.GetAxisRaw("Vertical");
         
         Vector3 movement = new Vector3(moveHori, 0, moveVert);
+        Vector3 jump = new Vector3(0, 300, 0);
+        
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && ballBody.velocity.y == 0)
+        {
+            ballBody.AddForce(jump);
+        }
+        
+        
 
         
         ballBody.AddForce(movement * speedMult);
