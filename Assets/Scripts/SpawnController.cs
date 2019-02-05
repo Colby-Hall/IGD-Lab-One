@@ -1,22 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class SpawnController : MonoBehaviour
 {
     public GameObject goodPrefab;
     public GameObject badPrefab;
+    public Text cubeText;
+    public int desiredCubes;
 
 
     private Vector3 goodPosition;
     private Vector3 badPosition;
     private float radius;
-    private int numCubes;
 
     private void Start()
     {
-        numCubes = 0;
-        for (; numCubes < 50; numCubes++)
+        if (desiredCubes > 70)
+        {
+            desiredCubes = 70;
+        }
+
+        SetCubeNumber();
+
+        int numCubes = 0;
+        for (; numCubes < desiredCubes; numCubes++)
         {
             goodPosition = new Vector3(Random.Range(-13.5f, 13.5f), 1, Random.Range(-13.5f, 13.5f));
             badPosition = new Vector3(Random.Range(-13.5f, 13.5f), 1, Random.Range(-13.5f, 13.5f));
@@ -30,6 +40,11 @@ public class SpawnController : MonoBehaviour
                 SpawnCubes(goodPosition, badPosition);
             }
         }
+    }
+
+    private void SetCubeNumber()
+    {
+        cubeText.text = (2 * desiredCubes).ToString();
     }
 
     private void SpawnCubes(Vector3 goodPos, Vector3 badPos)

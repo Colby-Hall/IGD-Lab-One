@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     private Rigidbody ballBody;
     private int goodPickups;
     private int badPickups;
+    private double winThresh;
+    private double failThresh;
+    private int numCubes;
     private bool jumping;
 
     public float speedMult;
     public Text scoreText;
     public Text winText;
     public Text lossText;
+    public Text cubeText;
 
 
 
@@ -27,6 +31,10 @@ public class PlayerController : MonoBehaviour
         setScore();
         winText.text = "";
         lossText.text = "";
+        numCubes = Int32.Parse(cubeText.text) / 2;
+        winThresh = Math.Floor(.7 * numCubes);
+        failThresh = Math.Floor(.3 * numCubes);
+
     }
 
 
@@ -34,11 +42,11 @@ public class PlayerController : MonoBehaviour
     private void setScore()
     {
         scoreText.text = "Score: " + ((10 * (goodPickups - badPickups)).ToString());
-        if (badPickups >= 3)
+        if (badPickups >= failThresh)
         {
             lossText.text = "You lost :( Play again? Y/N";
         }
-        else if (10 * (goodPickups - badPickups) >= 70)
+        else if (goodPickups >= winThresh)
         {
             winText.text = "You Win! Play again? Y/N";
             
@@ -54,23 +62,19 @@ public class PlayerController : MonoBehaviour
         
         Vector3 movement = new Vector3(moveHori, 0, moveVert);
         Vector3 jump = new Vector3(0, 300, 0);
-        
+
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && ballBody.velocity.y == 0)
         {
             ballBody.AddForce(jump);
         }
-        
-        
-
-        
         ballBody.AddForce(movement * speedMult);
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (badPickups < 3 && 10 * (goodPickups - badPickups) < 70)
+        if (badPickups < failThresh && goodPickups < winThresh)
         {
             if (other.gameObject.CompareTag("Bad Pickup"))
             {
